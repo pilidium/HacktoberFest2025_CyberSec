@@ -67,5 +67,3 @@ Each level has copy-paste templates: report, PR template, submission CSV, analys
 Completeness · Clarity · Correctness · Ethics · Insight
 
 ---
-
-If you want, I’ll now generate `CONTRIBUTING.md` and the four issue templates (copy-paste ready). Which one: `CONTRIBUTING.md`, `issue templates`, or both?
