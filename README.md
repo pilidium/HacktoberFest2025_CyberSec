@@ -24,3 +24,48 @@ Solo → Solo → Crowd-submissions → Team red vs blue
 ---
 
 ## Repo layout
+README.md
+CONTRIBUTING.md
+ISSUE_TEMPLATES/
+level1-foundations/
+level2-vm-nmap/
+level3/
+├─ submissions/
+└─ aggregated/
+level4/
+├─ weak-sites/
+└─ submissions/
+
+---
+
+## How to contribute (2 steps)
+1. Fork → branch `levelX/<yourhandle>/<task>` → add files under `levelX-.../<yourhandle>/`.  
+2. Open PR titled `Level-X: <task> — <yourhandle>` and paste the level PR template into the description.
+
+---
+
+## Must-have rules
+- **Lab-only**: only test on VMs or org-approved sandboxes.  
+- **Redact** real IPs/MACs/keys.  
+- **No exploit code** in repo.  
+- Level-4 PRs **must** include `legal-ethics.md` ack.
+
+---
+
+## Templates available
+Each level has copy-paste templates: report, PR template, submission CSV, analysis guide, legal-ethics text.
+
+---
+
+## Maintainers (quick)
+- Use labels: `level-1`, `level-2`, `level-3`, `level-4`, `pcap`, `review-needed`.  
+- Require 1 peer review for Level 3+ before merge.
+
+---
+
+## Quick grading rubric (single line)
+Completeness · Clarity · Correctness · Ethics · Insight
+
+---
+
+If you want, I’ll now generate `CONTRIBUTING.md` and the four issue templates (copy-paste ready). Which one: `CONTRIBUTING.md`, `issue templates`, or both?
