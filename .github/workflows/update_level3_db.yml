@@ -1,0 +1,62 @@
+name: 'Update Level 3 Aggregated Findings'
+
+# This action runs whenever a Pull Request is closed
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-table:
+    # We only want to run this job if the PR was MERGED and had the 'level-3' label
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'level-3')
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository's code so we can work with it
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Extract the metadata from the PR description
+      - name: Extract Metadata from PR
+        id: extract_metadata
+        run: |
+          # Get the PR description body
+          pr_body="${{ github.event.pull_request.body }}"
+
+          # Extract the content between the METADATA_START and METADATA_END markers
+          metadata=$(echo "$pr_body" | awk '/METADATA_START/,/METADATA_END/' | sed '/METADATA_START/d;/METADATA_END/d')
+
+          # Extract each field and make it available to other steps
+          echo "project_name=$(echo "$metadata" | grep 'PROJECT_NAME:' | cut -d ':' -f2- | xargs)" >> $GITHUB_OUTPUT
+          echo "vuln_type=$(echo "$metadata" | grep 'VULNERABILITY_TYPE:' | cut -d ':' -f2- | xargs)" >> $GITHUB_OUTPUT
+          echo "tech_stack=$(echo "$metadata" | grep 'TECHNOLOGY_STACK:' | cut -d ':' -f2- | xargs)" >> $GITHUB_OUTPUT
+
+      # Step 3: Append the new data as a row to the aggregated findings file
+      - name: Append to Aggregated Findings
+        run: |
+          # Contributor's GitHub handle
+          contributor="@${{ github.event.pull_request.user.login }}"
+          
+          # Extracted metadata from the previous step
+          project_name="${{ steps.extract_metadata.outputs.project_name }}"
+          vuln_type="${{ steps.extract_metadata.outputs.vuln_type }}"
+          tech_stack="${{ steps.extract_metadata.outputs.tech_stack }}"
+          
+          # Construct the path to the user's report file, assuming a standard name
+          # IMPORTANT: This assumes the main report file is named 'lifecycle_report.md'.
+          # If students can name it anything, this link might break.
+          report_link="[View Report](./submissions/${{ github.event.pull_request.user.login }}/lifecycle_report.md)"
+          
+          # Create the new table row
+          new_row="| ${contributor} | ${project_name} | ${vuln_type} | ${tech_stack} | ${report_link} |"
+          
+          # Append the new row to the file
+          echo "$new_row" >> level3/AGGREGATED_FINDINGS.md
+
+      # Step 4: Commit the updated file back to the repository
+      - name: Commit Updated File
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add level3/AGGREGATED_FINDINGS.md
+          git commit -m "Automated: Add ${{ github.event.pull_request.user.login }}'s submission to Level 3 DB"
+          git push
