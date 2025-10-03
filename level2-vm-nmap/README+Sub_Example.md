@@ -50,7 +50,3 @@ Port 80/tcp: ______
 # 4. Recommendation (one action)
 
 ______ (e.g., disable telnet, enable SSH with key auth, update/remove vulnerable service)
-
-# 5. Screenshots (embedded)
-
----
