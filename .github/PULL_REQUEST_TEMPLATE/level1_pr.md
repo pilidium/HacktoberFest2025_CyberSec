@@ -1,8 +1,8 @@
 ---
-name: "Level 1 Submission"
-about: "Submit your completed Level 1: Network Foundations task."
-title: "Level 1: Submission - <your-github-handle>"
-labels: ["level-1"]
+Name: "Level 1 Submission"
+About: "Submit your completed Level 1: Network Foundations task."
+Title: "Level 1: Submission - <your-github-handle>"
+Labels: ["level-1"]
 ---
 
 # Level 1 Submission
