@@ -1,8 +1,8 @@
 ---
-name: "Level 2 Submission"
-about: "Submit your completed Level 2: VM Lab & Nmap task."
-title: "Level 2: Submission - <your-github-handle>"
-labels: ["level-2"]
+Name: "Level 2 Submission"
+About: "Submit your completed Level 2: VM Lab & Nmap task."
+Title: "Level 2: Submission - <your-github-handle>"
+Labels: ["level-2"]
 ---
 
 # Level 2 Submission
