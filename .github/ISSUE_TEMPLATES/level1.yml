@@ -1,0 +1,24 @@
+name: 'Level 1: Network Foundations Task'
+description: Claim this task to start work on the Level 1 challenge.
+title: "Level 1: Network Foundations - <Your GitHub Handle>"
+labels: ["level-1", "good-first-issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You are about to start the Level 1 challenge. Please make sure you have read the instructions in `level1-foundations/README.md`.
+
+        Fill out the checklist below to confirm you understand the requirements. This helps the maintainers track your progress. Good luck!
+
+  - type: checkboxes
+    id: task-checklist
+    attributes:
+      label: "Confirmation Checklist"
+      description: "Please confirm the following before proceeding."
+      options:
+        - label: I have read the task instructions in the `level1-foundations/README.md` file.
+          required: true
+        - label: I understand that I need to create two deliverables: `level1.pkt` and `README.md`.
+          required: true
+        - label: I will follow the contribution guidelines outlined in `CONTRIBUTING.md` (Fork -> Branch -> PR).
+          required: true
