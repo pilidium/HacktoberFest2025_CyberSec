@@ -1,0 +1,47 @@
+name: 'Update Hall of Fame'
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-leaderboard:
+    # This job runs if a PR is merged AND has a label for any level.
+    if: >
+      github.event.pull_request.merged == true &&
+      (contains(github.event.pull_request.labels.*.name, 'level-1') ||
+       contains(github.event.pull_request.labels.*.name, 'level-2') ||
+       contains(github.event.pull_request.labels.*.name, 'level-3') ||
+       contains(github.event.pull_request.labels.*.name, 'level-4'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Hall of Fame
+        run: |
+          contributor="@${{ github.event.pull_request.user.login }}"
+          # Check if the user is already in the hall of fame
+          if grep -q "| ${contributor} " HALL_OF_FAME.md; then
+            # User exists, increment their count
+            count=$(grep "| ${contributor} " HALL_OF_FAME.md | awk -F'|' '{print $3}' | xargs)
+            new_count=$((count + 1))
+            sed -i "s/| ${contributor} | ${count} |/| ${contributor} | ${new_count} |/" HALL_OF_FAME.md
+          else
+            # User is new, add them with a count of 1
+            echo "| ${contributor} | 1 |" >> HALL_OF_FAME.md
+          fi
+
+      - name: Commit Updated Hall of Fame
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add HALL_OF_FAME.md
+          if ! git diff --staged --quiet; then
+            git commit -m "Automated: Update Hall of Fame for ${{ github.event.pull_request.user.login }}"
+            git push
+          else
+            echo "No changes to commit."
+          fi
