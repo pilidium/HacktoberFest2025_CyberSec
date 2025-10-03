@@ -1,0 +1,26 @@
+name: 'Level 3: Attack & Defense Lifecycle'
+description: Claim this task to start work on the Level 3 challenge.
+title: 'Level 3: Lifecycle Analysis - <Your GitHub Handle>'
+labels: ['level-3', 'help-wanted']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You are about to start the Level 3 challenge. This is a complex task with important safety considerations.
+
+        Please read the instructions in `level3/README.md` carefully and fill out the checklist below to confirm you understand the requirements. Good luck!
+
+  - type: checkboxes
+    id: safety-checklist
+    attributes:
+      label: Confirmation Checklist
+      description: Please confirm the following before proceeding.
+      options:
+        - label: I have read the main instructions in `level3/README.md`.
+          required: true
+        - label: I have read and understood the **CRITICAL SECURITY WARNING** regarding running code from this repository.
+          required: true
+        - label: I confirm that all my work will be conducted in a private, isolated lab environment (like a VM).
+          required: true
+        - label: I understand the required submission structure (`lifecycle_report.md`, `vulnerable_code/`, etc.).
+          required: true
