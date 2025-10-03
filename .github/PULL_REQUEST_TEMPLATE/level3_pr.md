@@ -1,8 +1,8 @@
 ---
-name: '🚨 Level 3 Submission: Attack & Defense Lifecycle'
-about: 'Submit your completed Level 3 lifecycle analysis for review.'
-title: 'Level 3 Submission: <Your Project Name> - <Your GitHub Handle>'
-labels: ['level-3', 'review-needed']
+Name: '🚨 Level 3 Submission: Attack & Defense Lifecycle'
+About: 'Submit your completed Level 3 lifecycle analysis for review.'
+Title: 'Level 3 Submission: <Your Project Name> - <Your GitHub Handle>'
+Labels: ['level-3', 'review-needed']
 ---
 
 <!--
