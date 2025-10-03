@@ -3,7 +3,7 @@
 ## Objective
 This is the first collaborative challenge. Each participant will document a full attack-and-defense lifecycle on a simple application. Your individual submission will then be aggregated with others to build a community knowledge base of vulnerabilities, exploits, and mitigation techniques.
 
-## Refer to EXAMPLE_LIFE_CYCLE for better understanding
+## Refer to EXAMPLE_LIFE_CYCLE for better understanding.
 
 ---
 
