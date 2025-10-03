@@ -48,14 +48,14 @@ Set up a two-machine virtual lab environment and perform basic network reconnais
 
 ## Suggested Folder Structure
 
-level2-vm-nmap/
-└── <your-github-handle>/
-├── README.md
-├── report.md
-├── fast_scan.txt
-├── service_scan.txt
-└── screenshots/
-└── vms_running.png
+level2-vm-nmap/  
+└── <your-github-handle>/  
+├── README.md  
+├── report.md  
+├── fast_scan.txt  
+├── service_scan.txt  
+└── screenshots/  
+└── vms_running.png  
 ---
 
 ## Example Nmap Commands (copy/paste — replace `<TARGET_IP>`)
