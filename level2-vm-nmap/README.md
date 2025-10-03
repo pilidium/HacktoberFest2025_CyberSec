@@ -55,7 +55,7 @@ level2-vm-nmap/
 ├── fast_scan.txt  
 ├── service_scan.txt  
 └── screenshots/  
-└── vms_running.png  
+  └── vms_running.png  
 ---
 
 ## Example Nmap Commands (copy/paste — replace `<TARGET_IP>`)
