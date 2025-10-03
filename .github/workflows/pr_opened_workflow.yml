@@ -1,0 +1,48 @@
+name: 'PR Analysis & Welcome Bot'
+
+# This action runs whenever a Pull Request is opened
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  analyze-and-comment:
+    # We only want to run this job if the PR has the 'level-3' label
+    if: contains(github.event.pull_request.labels.*.name, 'level-3')
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Post a welcome comment
+      - name: Post Welcome Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🤖 Greetings, @${context.actor}! Thanks for your Level 3 submission. Your report is now in the queue for review.\n\nIn the meantime, an automated security scan will run to check your code. Please double-check that you've completed the safety checklist and redacted all sensitive information. Good luck!`
+            })
+
+      # Step 2: Check out the code to be scanned
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 3: Extract the language from the PR metadata
+      - name: Extract Language from PR
+        id: extract_lang
+        run: |
+          pr_body="${{ github.event.pull_request.body }}"
+          metadata=$(echo "$pr_body" | awk '/METADATA_START/,/METADATA_END/')
+          language=$(echo "$metadata" | grep 'PRIMARY_LANGUAGE:' | cut -d ':' -f2- | xargs | tr '[:upper:]' '[:lower:]')
+          echo "language=${language}" >> $GITHUB_OUTPUT
+
+      # Step 4: Initialize the CodeQL security scanner
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ steps.extract_lang.outputs.language }}
+
+      # Step 5: Build and analyze the code
+      - name: Autobuild & Analyze
+        uses: github/codeql-action/autobuild@v2
+      - uses: github/codeql-action/analyze@v2
