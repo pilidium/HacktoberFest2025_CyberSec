@@ -62,8 +62,3 @@ Each level has copy-paste templates: report, PR template, submission CSV, analys
 - Require 1 peer review for Level 3+ before merge.
 
 ---
-
-## Quick grading rubric (single line)
-Completeness · Clarity · Correctness · Ethics · Insight
-
----
