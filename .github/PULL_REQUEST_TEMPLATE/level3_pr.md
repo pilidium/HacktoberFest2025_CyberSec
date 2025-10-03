@@ -15,6 +15,7 @@ METADATA_START
 PROJECT_NAME: Your Project Name Here
 VULNERABILITY_TYPE: The Main Vulnerability Type (e.g., SQL Injection)
 TECHNOLOGY_STACK: The Tech Stack (e.g., Python, Node.js)
+PRIMARY_LANGUAGE: The main language for the security scan (e.g., python, javascript, go, csharp)
 METADATA_END
 -->
 
