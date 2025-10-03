@@ -23,18 +23,18 @@ Solo → Solo → Crowd-submissions → Team red vs blue
 
 ---
 
-## Repo layout
-README.md
-CONTRIBUTING.md
-ISSUE_TEMPLATES/
-level1-foundations/
-level2-vm-nmap/
-level3/
-├─ submissions/
-└─ aggregated/
-level4/
-├─ weak-sites/
-└─ submissions/
+## Repo layout  
+README.md  
+CONTRIBUTING.md  
+ISSUE_TEMPLATES/  
+level1-foundations/  
+level2-vm-nmap/  
+level3/  
+├─ submissions/  
+└─ aggregated/  
+level4/  
+├─ weak-sites/  
+└─ submissions/  
 
 ---
 
