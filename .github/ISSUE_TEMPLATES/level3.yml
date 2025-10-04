@@ -1,15 +1,14 @@
 name: 'Level 3: Attack & Defense Lifecycle'
 description: Claim this task to start work on the Level 3 challenge.
-title: 'Level 3: Lifecycle Analysis - <Your GitHub Handle>'
+title: 'Level 3: [<Your Student ID>] - Lifecycle Analysis'
 labels: ['level-3', 'help-wanted']
 body:
   - type: markdown
     attributes:
       value: |
         You are about to start the Level 3 challenge. This is a complex task with important safety considerations.
-
+        
         Please read the instructions in `level3/README.md` carefully and fill out the checklist below to confirm you understand the requirements. Good luck!
-
   - type: checkboxes
     id: safety-checklist
     attributes:
