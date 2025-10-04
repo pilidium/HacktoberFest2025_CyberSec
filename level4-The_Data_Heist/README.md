@@ -44,20 +44,14 @@ secret_data.txt
 
 ---
 
-## 🕹️ How to Play
+### **🕹️How to Play**
 
-- **Join a Team**:  
-  Go to the **Issues** tab and open a new issue using the  
-  `Level 4: Join the Simulation` template.
+1.  **Join the Game:** Go to the "Issues" tab and open a new issue using the "Level 4: Join the Simulation" template. **You will be automatically assigned to a team** to keep the game balanced and fair.
+2.  **Coordinate in Your Forum:** An automated bot will welcome you and tell you which team you're on. Join the discussion in your designated team "Strategy" issue.
+3.  **Take a Turn:** When it is your team's turn, one person will open a Pull Request containing your team's action.
+4.  **Meet the Deadline:** Each team has **48 hours** to submit a Pull Request once their turn begins.
 
-- **Coordinate in Your Forum**:  
-  Each team gets a dedicated `Strategy` issue to plan and discuss.
-
-- **Take a Turn**:  
-  One team member opens a Pull Request with the team's action.
-
-- **Meet the Deadline**:  
-  Each team has **48 hours** to submit their PR once their turn begins.
+Once you have updated these three files, your Level 4 simulation will have a fully automated, fair, and robust team balancing system.
 
 ---
 
