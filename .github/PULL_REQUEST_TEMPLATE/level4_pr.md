@@ -1,19 +1,19 @@
 ---
-Name: 'Level 4 Move Submission'
-About: 'Submit a turn for the Red or Blue Team in the Data Heist challenge.'
-Title: 'Level 4 Move: [<TEAM>] - <Brief Description of Action>'
-Labels: ['level-4']
+name: 'Level 4 Move Submission'
+about: 'Submit a turn for the Red or Blue Team in the Data Heist challenge.'
+title: 'Level 4: [<Your Student ID>] - <Brief Description of Action>'
+labels: ['level-4']
 ---
 
-# 🎲 Team Move Submission
+# 🎲 Level 4 Move Submission – The Data Heist
 
-### 🧑‍🤝‍🧑 Team Making This Move (select one):
+## 🧑‍🤝‍🧑 Team Making This Move (select one):
 - [ ] 🔴 Red Team  
 - [ ] 🔵 Blue Team  
 
 ---
 
-### 📝 Description of Action  
+## 📝 Description of Action  
 _A brief, one-sentence summary of what this move accomplishes._  
 > Example: "Exploited Path Traversal to read file" or "Patched Path Traversal vulnerability"
 
@@ -33,6 +33,12 @@ _A brief, one-sentence summary of what this move accomplishes._
 
 ---
 
-### 🛠️ Patch Notes / Additional Description  
-_🔵 For Blue Team: Explain your patch here._  
-_🔴 For Red Team: Add any extra notes for the maintainer._
+## 🛠️ Patch Notes / Additional Description
+
+🔵 **For Blue Team**: Explain your patch here.  
+🔴 **For Red Team**: Add any extra notes for the maintainer.
+
+---
+
+⚠️ **Reminder**: Submit your Pull Request within the 48-hour window once your team’s turn begins.  
+Let the battle begin!
