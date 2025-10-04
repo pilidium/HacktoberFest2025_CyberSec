@@ -1,8 +1,8 @@
 ---
-name: 'Level 4 Move Submission'
-about: 'Submit a turn for the Red or Blue Team in the Data Heist challenge.'
-title: 'Level 4 Move: [<TEAM>] - <Brief Description of Action>'
-labels: ['level-4']
+Name: 'Level 4 Move Submission'
+About: 'Submit a turn for the Red or Blue Team in the Data Heist challenge.'
+Title: 'Level 4 Move: [<TEAM>] - <Brief Description of Action>'
+Labels: ['level-4']
 ---
 
 # 🎲 Team Move Submission
