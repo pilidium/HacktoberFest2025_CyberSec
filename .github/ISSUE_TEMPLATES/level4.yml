@@ -1,23 +1,21 @@
 name: 'Level 4: Join the Simulation'
-description: 'Join the queue to be assigned to either the Red or Blue Team.'
-title: "Level 4 Sign-Up: <Your GitHub Handle>"
+description: 'Join the Red vs. Blue simulation. You will be automatically assigned to a team.'
+title: "Level 4: [<Your Student ID>] - Join Simulation"
 labels: ['level-4', 'pending-assignment']
 body:
   - type: markdown
     attributes:
       value: |
-        Welcome to the final challenge! You are about to join the queue for the Red vs. Blue simulation.
+        Welcome to the final challenge! Please read the instructions in `level4/README.md` before joining.
         
-        **To ensure the game is fair, teams will be balanced automatically.** You will be assigned to the team with fewer members at the time you create this issue.
+        By creating this issue, you are requesting to join the Level 4 simulation. **An automated workflow will assign you to either the Red Team or the Blue Team to ensure the game is balanced.** You will receive a comment on this issue with your team assignment shortly.
   - type: checkboxes
     id: confirmation-checklist
     attributes:
       label: Confirmation Checklist
       description: Please confirm the following before joining the simulation.
       options:
-        - label: I have read and understood the rules and winning conditions in the `level4/README.md`.
+        - label: I have read and understood the rules, deliverables, and winning conditions in the `level4/README.md`.
           required: true
-        - label: I understand that my team will be assigned automatically to ensure balance.
-          required: true
-        - label: I understand that my team has a 48-hour time limit to make a move once our turn begins.
+        - label: I understand that this is a team-based exercise and I will coordinate with my teammates in our designated forum.
           required: true
