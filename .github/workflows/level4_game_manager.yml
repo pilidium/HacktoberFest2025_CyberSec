@@ -1,0 +1,93 @@
+# This workflow acts as the Game Master for the Level 4 simulation.
+# It triggers when a Level 4 PR is merged, updates the game state,
+# and announces the next turn in the appropriate team's strategy forum.
+
+name: 'Level 4 Game Manager'
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  manage-turns:
+    # This job only runs if a PR was merged AND has the 'level-4' label.
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'level-4')
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository code to access the game_state.json file.
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # We need a token to be able to push changes back to the repo.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 2: Read the game state and determine the next turn.
+      - name: Determine Next Turn
+        id: turn_logic
+        run: |
+          # Read the current turn from the JSON file.
+          current_turn=$(jq -r .current_turn game_state.json)
+          
+          # Determine the next turn.
+          if [ "$current_turn" == "red" ]; then
+            next_turn="blue"
+          else
+            next_turn="red"
+          fi
+          
+          # Output the next turn so other steps can use it.
+          echo "next_turn=$next_turn" >> $GITHUB_OUTPUT
+          echo "The current turn was $current_turn. The next turn is $next_turn."
+
+      # Step 3: Update the game_state.json file with the new turn.
+      - name: Update Game State File
+        run: |
+          # Use jq to update the JSON file in place.
+          jq '.current_turn = "${{ steps.turn_logic.outputs.next_turn }}"' game_state.json > tmp.json && mv tmp.json game_state.json
+          echo "game_state.json updated to: $(cat game_state.json)"
+
+      # Step 4: Post an announcement comment in the correct team's forum.
+      - name: Announce Next Turn
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const gameState = JSON.parse(fs.readFileSync('game_state.json', 'utf8'));
+            const nextTurn = "${{ steps.turn_logic.outputs.next_turn }}";
+            
+            let targetIssueNumber;
+            let announcementBody;
+            
+            if (nextTurn === 'red') {
+              targetIssueNumber = gameState.red_team_forum_issue;
+              announcementBody = `🔴 **Red Team, it's your turn!** 🔴\n\nThe Blue Team has submitted their patch. The latest version of the application is now live on the \`main\` branch. Your 48-hour timer starts now. Good luck!`;
+            } else {
+              targetIssueNumber = gameState.blue_team_forum_issue;
+              announcementBody = `🔵 **Blue Team, it's your turn!** 🔵\n\nThe Red Team has submitted their attack report. Review their findings, pull the latest code, and develop a patch. Your 48-hour timer starts now. Stay vigilant!`;
+            }
+
+            if (targetIssueNumber && targetIssueNumber > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: targetIssueNumber,
+                body: announcementBody
+              });
+              console.log(`Posted announcement to issue #${targetIssueNumber}.`);
+            } else {
+              console.log('Target issue number not set. Skipping announcement.');
+            }
+
+      # Step 5: Commit the updated game state back to the repository.
+      - name: Commit Updated Game State
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add game_state.json
+          # Only commit if there are actual changes.
+          if ! git diff --staged --quiet; then
+            git commit -m "Automated: Update game state to ${{ steps.turn_logic.outputs.next_turn }}'s turn"
+            git push
+          else
+            echo "No changes to game state to commit."
+          fi
