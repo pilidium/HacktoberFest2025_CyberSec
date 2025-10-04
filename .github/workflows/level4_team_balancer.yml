@@ -1,0 +1,75 @@
+# This workflow automatically assigns new players to a team to ensure balance.
+name: 'Level 4 Team Balancer'
+
+# Trigger when a new issue is created.
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  auto-assign-team:
+    # Only run this job if the issue title starts with "Level 4 Sign-Up:".
+    if: startsWith(github.event.issue.title, 'Level 4 Sign-Up:')
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Count the number of players already on each team.
+      # We do this by counting how many issues have the 'team-red' or 'team-blue' label.
+      - name: Count Current Team Sizes
+        id: count_teams
+        run: |
+          red_count=$(gh issue list --label "team-red" --json number | jq length)
+          blue_count=$(gh issue list --label "team-blue" --json number | jq length)
+          echo "Red Team has $red_count members. Blue Team has $blue_count members."
+          echo "red_count=$red_count" >> $GITHUB_OUTPUT
+          echo "blue_count=$blue_count" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 2: Assign the player to the smaller team.
+      - name: Assign to Red Team
+        # This step runs if the Red Team is smaller or equal in size.
+        if: steps.count_teams.outputs.red_count <= steps.count_teams.outputs.blue_count
+        run: |
+          # Add the 'team-red' label to the issue.
+          gh issue edit ${{ github.event.issue.number }} --add-label "team-red"
+          # Remove the 'pending-assignment' label.
+          gh issue edit ${{ github.event.issue.number }} --remove-label "pending-assignment"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Assign to Blue Team
+        # This step runs if the Blue Team is smaller.
+        if: steps.count_teams.outputs.blue_count < steps.count_teams.outputs.red_count
+        run: |
+          gh issue edit ${{ github.event.issue.number }} --add-label "team-blue"
+          gh issue edit ${{ github.event.issue.number }} --remove-label "pending-assignment"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 3: Post a welcome comment announcing the team assignment.
+      - name: Post Welcome Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const red_count = parseInt('${{ steps.count_teams.outputs.red_count }}');
+            const blue_count = parseInt('${{ steps.count_teams.outputs.blue_count }}');
+            let team_name;
+            let team_emoji;
+            let welcome_message;
+
+            if (red_count <= blue_count) {
+              team_name = "Red Team";
+              team_emoji = "🔴";
+              welcome_message = "Your mission: find and exploit vulnerabilities in the target application. Good luck!";
+            } else {
+              team_name = "Blue Team";
+              team_emoji = "🔵";
+              welcome_message = "Your mission: patch the vulnerabilities and defend the application. Stay vigilant!";
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🤖 **Welcome to the simulation, @${context.actor}!**\n\nYou have been automatically assigned to the **${team_emoji} ${team_name}** to ensure the game is balanced.\n\n${welcome_message}\n\nPlease join the discussion in your team's strategy forum.`
+            });
