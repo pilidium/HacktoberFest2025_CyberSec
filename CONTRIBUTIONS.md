@@ -1,20 +1,20 @@
-# 🚀 How to Contribute to this Project
+# 🤝 How to Contribute to this Project
 
-Welcome! We're thrilled to have you join our **Cybersecurity Hacktoberfest**. To ensure a smooth and fair experience for everyone, please follow these guidelines carefully.
+Welcome! We're excited to have you participate in our **Cybersecurity Hacktoberfest**.  
+To ensure a smooth and fair experience for everyone, please follow these guidelines carefully.
 
 ---
 
 ## 🛠️ The Standard Workflow
 
-All contributions are made through **Pull Requests (PRs)**. Follow these steps to submit your work:
+All contributions are made through **Pull Requests (PRs)**. Here's how to submit your work:
 
 1. **Fork the Repository**  
    Click the **Fork** button at the top-right of this page to create your own copy.
 
 2. **Create a New Branch**  
-   Before making changes, create a new branch in your forked repo using this naming convention:    levelX/<your-github-handle>/<task-summary>
-
-_Example_: `level1/srimanth/network-setup`
+   Use this naming convention to keep your work organized: levelX/<your-github-handle>/<task-summary>
+ _Example_: `level1/srimanth/network-setup`
 
 3. **Add Your Files**  
 Complete your task and add your deliverables to the correct directory as specified in the level instructions.  
@@ -24,12 +24,13 @@ Complete your task and add your deliverables to the correct directory as specifi
 Save your work with a clear and descriptive commit message.
 
 5. **Open a Pull Request**  
-Go to the original repository and open a new PR from your branch.
+Go to the original repository and open a PR from your branch.
 
 - **Title Format**:  
   ```
-  Level X: Task Description - <your-github-handle>
+  Level X: [<Your Student ID>] - <Task Description>
   ```
+  _(Student ID is for tracking purposes)_
 
 - **Description**:  
   Fill out the PR template that appears. It includes a checklist to ensure your submission is complete.
@@ -58,7 +59,7 @@ Treat all participants and maintainers with kindness. We're here to learn togeth
 
 ## 📁 Submission Directory Structure
 
-Place your files in a folder named after your GitHub handle within the appropriate level directory:
+To ensure our automation works correctly, use your **GitHub handle** for folder names:
 
 - **Level 1**:  level1-foundations/<your-github-handle>/
 
@@ -75,16 +76,8 @@ Follow the specific instructions in:  level4/README.md
 If you're stuck or need clarification:
 
 1. Check the `README.md` for the level you're working on.
-2. If you still have questions, open a **GitHub Issue**.
-
- - **Title Format**:  
-   ```
-   Help: Level X - <Brief Description of Problem>
-   ```
-
- - **Details**:  
-   Provide as much context and information as possible.
+2. If you still have questions, open a **GitHub Issue** using the appropriate template.
 
 ---
 
-Happy hacking! 💻🔐
+Happy hacking and good luck! 💻🔐
