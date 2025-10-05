@@ -1,10 +1,3 @@
----
-Name: "Level 1 Submission"
-About: "Submit your completed Level 1: Network Foundations task."
-Title: "Level 1: [<Your Student ID>] - Network Foundations"
-Labels: ["level-1"]
----
-
 # 🧩 Level 1 Submission
 
 Thank you for your contribution!  
