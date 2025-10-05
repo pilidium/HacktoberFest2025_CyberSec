@@ -1,7 +1,7 @@
 name: 'Level 1: Network Foundations Task'
 description: Claim this task to start work on the Level 1 challenge.
 title: "Level 1: [<Your Student ID>] - Network Foundations"
-labels: ["level-1", "good-first-issue"]
+labels: [level-1, good-first-issue]
 body:
   - type: markdown
     attributes:
