@@ -1,25 +1,29 @@
 name: 'Level 2: VM Lab & Nmap Scan'
 description: Claim this task to start work on the Level 2 challenge.
 title: "Level 2: [<Your Student ID>] - VM Lab & Nmap Scan"
-labels: ["level-2"]
-body:
-  - type: markdown
-    attributes:
-      value: |
-        You are about to start the Level 2 challenge. Please make sure you have read the instructions in `level2-vm-nmap/README.md`.
-        
-        Fill out the checklist below to confirm you understand the requirements. Good luck!
-  - type: checkboxes
-    id: task-checklist
-    attributes:
-      label: "Confirmation Checklist"
-      description: "Please confirm the following before proceeding."
-      options:
-        - label: I have read the task instructions in the `level2-vm-nmap/README.md` file.
-          required: true
-        - label: I understand that I need to create four deliverables: `report.md`, `fast_scan.txt`, `service_scan.txt`, and a screenshot.
-          required: true
-        - label: I acknowledge the critical rule to redact all personal or public network information from my submission.
-          required: true
-        - label: I will follow the contribution guidelines for creating a folder and opening a Pull Request.
-          required: true
+labels:
+
+* level-2
+  body:
+* type: markdown
+  attributes:
+  value: |
+  You are about to start the Level 2 challenge. Please make sure you have read the instructions in `level2-vm-nmap/README.md`.
+
+  ```
+  Fill out the checklist below to confirm you understand the requirements. Good luck!
+  ```
+* type: checkboxes
+  id: task-checklist
+  attributes:
+  label: "Confirmation Checklist"
+  description: "Please confirm the following before proceeding."
+  options:
+  - label: "I have read the task instructions in the `level2-vm-nmap/README.md` file."
+  required: true
+  - label: "I understand that I need to create four deliverables: `report.md`, `fast_scan.txt`, `service_scan.txt`, and a screenshot."
+  required: true
+  - label: "I acknowledge the critical rule to redact all personal or public network information from my submission."
+  required: true
+  - label: "I will follow the contribution guidelines for creating a folder and opening a Pull Request."
+  required: true
