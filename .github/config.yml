@@ -1,0 +1,13 @@
+pull_request_template:
+  - name: "Level 1 Submission"
+    description: "Submit your completed Level 1: Network Foundations task."
+    filename: "PULL_REQUEST_TEMPLATE/level1_pr.md"
+  - name: "Level 2 Submission"
+    description: "Submit your completed Level 2: VM Lab & Nmap task."
+    filename: "PULL_REQUEST_TEMPLATE/level2_pr.md"
+  - name: "Level 3 Submission"
+    description: "Submit your completed Level 3: Attack & Defense Lifecycle task."
+    filename: "PULL_REQUEST_TEMPLATE/level3_pr.md"
+  - name: "Level 4 Move Submission"
+    description: "Submit your turn for the Red or Blue Team in the Data Heist challenge."
+    filename: "PULL_REQUEST_TEMPLATE/level4_pr.md"
