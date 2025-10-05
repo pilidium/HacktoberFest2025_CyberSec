@@ -1,25 +1,4 @@
----
-Name: '🚨 Level 3 Submission: Attack & Defense Lifecycle'
-About: 'Submit your completed Level 3 lifecycle analysis for review.'
-Title: 'Level 3: [<Your Student ID>] - <Your Project Name>'
-Labels: ['level-3', 'review-needed']
----
-
-<!--
-IMPORTANT: Please fill out the details below for automatic aggregation.
-Do not delete the comment tags or change the formatting.
--->
-
-<!--
-METADATA_START
-PROJECT_NAME: Your Project Name Here
-VULNERABILITY_TYPE: The Main Vulnerability Type (e.g., SQL Injection)
-TECHNOLOGY_STACK: The Tech Stack (e.g., Python, Node.js)
-PRIMARY_LANGUAGE: The main language for the security scan (e.g., python, javascript, go, csharp)
-METADATA_END
--->
-
-# ✅ Level 3 Submission Checklist
+# ✅ Level 3 Submission — Attack & Defense Lifecycle
 
 Please complete the checklist below to ensure your submission is ready for review.
 
@@ -27,42 +6,39 @@ Please complete the checklist below to ensure your submission is ready for revie
 
 ## 📁 Content Checklist
 
-- [ ] My submission is in a new folder:  level3/submissions/<your-github-handle>/
-
-- [ ] `lifecycle_report.md` (or similar) is present and filled out
-
-- [ ] `vulnerable_code/` folder is present and contains the necessary files
-
-- [ ] `exploit/` folder is present and contains the necessary files/scripts
-
-- [ ] `patched_code/` folder is present and contains the necessary files
+- [ ] My submission is in a new folder: `level3/submissions/<your-github-handle>/`
+- [ ] `lifecycle_report.md` (or equivalent) is present and filled out
+- [ ] `vulnerable_code/` folder is present and contains the necessary vulnerable files
+- [ ] `exploit/` folder is present and contains exploit scripts or PoCs
+- [ ] `patched_code/` folder is present and includes fixed code
 
 ---
 
 ## 🔐 Safety & Ethics Checklist
 
-- [ ] I confirm that all code/binaries in this submission were created by me or are from a well-known, legitimate source for security testing
-
-- [ ] I have redacted all sensitive information (public IPs, usernames, passwords, keys) from my report and screenshots
-
-- [ ] I have read and understood the **CRITICAL SECURITY WARNING** and confirm my submission is for educational purposes only
+- [ ] All code/binaries in this submission were created by me or are from a legitimate, permitted source for security testing.
+- [ ] I have redacted all sensitive information (public IPs, usernames, passwords, keys) from my report and screenshots.
+- [ ] I have read and understand the **CRITICAL SECURITY WARNING** and confirm my submission is for educational purposes only.
 
 ---
 
-## 📝 Description
+## 📝 Optional Description
 
 <details>
-<summary><strong>Click to expand (optional)</strong></summary>
+<summary><strong>Click to expand</strong></summary>
 
-Add any additional notes for the reviewer here.  
-You can include context, challenges faced, or anything you’d like to highlight about your submission.
+Add any additional notes for the reviewer here (context, challenges, testing steps, or anything to highlight).
 
 </details>
 
 ---
 
-⚠️ **Reminder**: Ensure your metadata block is filled out correctly.  
-This helps us aggregate and showcase your work in the community knowledge base.
+⚠️ Reminder: Fill the metadata section below if required by maintainers.  
+This helps with automated aggregation.
 
-💡 **Tip**: Use clear commit messages and organize your folders cleanly.  
-It makes the review smoother and helps others learn from your work.
+<!--
+PROJECT_NAME: Your Project Name Here
+VULNERABILITY_TYPE: SQL Injection, XSS, etc.
+TECHNOLOGY_STACK: Python, Node.js, etc.
+PRIMARY_LANGUAGE: python, javascript, go, csharp, etc.
+-->
