@@ -1,67 +1,103 @@
-# Level 2: VM Lab & Nmap Scan
+# 🧪 Level 2: VM Lab & Nmap Scan
 
-### **Objective**
-Set up a two-machine virtual lab environment and perform basic network reconnaissance using Nmap.
+## 🎯 Objective
 
----
-
-### **Core Concepts**
-- **Virtualization:** VMware or VirtualBox
-- **Virtual Networking:** Host-Only (recommended) or NAT
-- **Network Scanning:** Nmap basics (fast scan, service/version detection)
-- **Data Redaction:** Removing sensitive info (e.g., public IPs) from submissions.
+Set up a two-machine virtual lab environment and perform basic network reconnaissance using **Nmap**.
 
 ---
 
-### **Your Tasks**
+## 🧠 Core Concepts
 
-#### 1. Build the Lab
+- **Virtualization**: VMware or VirtualBox  
+- **Virtual Networking**: Host-Only (recommended) or NAT  
+- **Network Scanning**: Nmap basics (fast scan, service/version detection)  
+- **Data Redaction**: Remove sensitive info (e.g., public IPs) before submission  
+
+---
+
+## 🛠️ Your Tasks
+
+### 1. Build the Lab
+
 - Create two virtual machines:
-  - **Attacker VM** (e.g., Kali Linux, or any distro with Nmap).
-  - **Target VM** (e.g., Ubuntu, Windows, or a vulnerable machine like Metasploitable).
-- Configure them on a private virtual network (Host-Only is recommended for isolation).
+  - **Attacker VM**: Kali Linux or any distro with Nmap
+  - **Target VM**: Ubuntu, Windows, or a vulnerable machine like Metasploitable
+- Configure both on a **private virtual network** (Host-Only recommended)
 
-#### 2. Perform Scans
-From your Attacker VM, run the following scans against your Target VM's private IP address.
+### 2. Perform Scans
 
-- **Fast Scan:** To quickly identify the most common open ports.
-- **Service & Version Scan:** To get detailed information about the services running on the open ports.
+From your Attacker VM, run the following scans against your Target VM’s **private IP address**:
 
-#### 3. Document Your Findings
-Create a report that includes your lab setup, the commands you ran, your key findings, and a security recommendation based on what you discovered.
+- **Fast Scan**: Quickly identify common open ports
+- **Service & Version Scan**: Detect services and versions running on those ports
 
----
+### 3. Document Your Findings
 
-### **Required Deliverables**
+Create a report that includes:
 
-Place all of the following files inside a new folder: `level2-vm-nmap/<your-github-handle>/`
-
-1.  `report.md` — Your main report file.
-2.  `fast_scan.txt` — The full, unedited output from your fast scan.
-3.  `service_scan.txt` — The full, unedited output from your service & version scan.
-4.  `screenshots/` — A folder containing at least one image, `vms_running.png`, showing both of your VMs running.
-
-> **CRITICAL:** Before submitting, you **must** redact any public IP addresses, real usernames, or other sensitive information from your `report.md` and screenshots.
+- Lab setup details
+- Nmap commands used
+- Key findings
+- One security recommendation
 
 ---
 
-### **Example Nmap Commands**
+## 📦 Required Deliverables
 
-Use these commands on your **Attacker VM**. Replace `<TARGET_IP>` with the private IP of your Target VM.
+Place all files inside a new folder:  level2-vm-nmap/<your-github-handle>/
 
-**Fast Scan:**
+Your folder must include:
+
+1. `report.md` — Your main report file  
+2. `fast_scan.txt` — Full output from your fast scan  
+3. `service_scan.txt` — Full output from your service/version scan  
+4. `screenshots/` — A folder with:
+   - `vms_running.png`: Both VMs running
+   - `nmap_output.png`: Attacker terminal showing Nmap output
+
+> ⚠️ **CRITICAL**: Redact all public IPs, usernames, and sensitive info from `report.md` and screenshots before submitting.
+
+---
+
+## 🧪 Nmap Commands
+
+Run these from your **Attacker VM**, replacing `<TARGET_IP>` with the private IP of your Target VM:
+
+**Fast Scan**
 ```bash
 nmap -F -oN fast_scan.txt <TARGET_IP>
+```
+```bash
+Service & Version Scan
 nmap -sV -sC -oN service_scan.txt <TARGET_IP>
 ```
-## What to Include in report.md
-Your report should be brief and clear, with the following sections:
+### 📝  Template
+Copy and paste the template below into your  and fill in the details:
 
-Lab Setup: Attacker OS, Target OS, Virtualization Software, and Network Mode (Host-Only/NAT).
+# Level 2 Submission: Nmap Scan Report
 
-Commands Run: The exact commands you used.
+## 1. Lab Environment Setup
+- **Attacker OS:** ______
+- **Target OS:** ______
+- **Virtualization Software:** ______
+- **Network Mode:** ______
 
-Top 3 Findings: A short bulleted list of the most interesting open ports or services you found.
+## 2. Nmap Commands Executed
+```bash
+nmap -F -oN fast_scan.txt <REDACTED_IP>
+nmap -sV -sC -oN service_scan.txt <REDACTED_IP>
+```
 
-Recommendation: One concrete security recommendation for the target based on your findings.
-____________________
+## 3. Screenshots
+![VMs Running](screenshots/vms_running.png)  
+![Nmap Output](screenshots/nmap_output.png)
+
+## 4. Top 3 Findings
+- **Port/Service 1:** ______  
+- **Port/Service 2:** ______  
+- **Port/Service 3:** ______  
+
+## 5. Security Recommendation
+- **Recommendation:** ______
+
+  Good luck and happy scanning! 🔍
