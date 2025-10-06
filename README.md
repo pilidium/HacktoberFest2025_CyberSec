@@ -1,4 +1,4 @@
-# 🛡️ Cybersecurity Hacktoberfest Challenge
+# 🛡️ Cybersecurity Challenge
 
 Welcome to the **ultimate hands-on cybersecurity experience** for students and beginners!  
 This repository hosts a **multi-level challenge** designed to sharpen your skills in:
