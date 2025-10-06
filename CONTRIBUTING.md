@@ -1,6 +1,6 @@
 # 🤝 How to Contribute to this Project
 
-Welcome! We're excited to have you participate in our **Cybersecurity Hacktoberfest**.  
+Welcome! We're excited to have you participate in our **Cybersecurity Challenge**.  
 To ensure a smooth and fair experience for everyone, please follow these guidelines carefully.
 
 ---
