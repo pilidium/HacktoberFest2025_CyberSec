@@ -6,4 +6,5 @@ This board is updated automatically by a GitHub Action.
 
 | Contributor | Merged Contributions |
 | :--- | :--- |
-| *(Contributors will be automatically added here)* | |
+| @Tek-Night | 1 |
+| @ramcharan46 | 1 |
