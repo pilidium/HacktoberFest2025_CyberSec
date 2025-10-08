@@ -1,0 +1,67 @@
+# This is a special, one-time-use workflow to rebuild the Hall of Fame.
+# It scans all previously merged Pull Requests to count every contribution,
+# even those that were merged without a label.
+
+name: 'Manual Hall of Fame Rebuilder'
+
+# This makes the workflow manually triggerable from the "Actions" tab.
+on:
+  workflow_dispatch:
+
+jobs:
+  rebuild-leaderboard:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the repository so we can read and write files.
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # We need a token to push the updated file back to the repo.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 2: Scan PRs and rebuild the Hall of Fame file.
+      - name: Scan PRs and Rebuild
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # The header for the HALL_OF_FAME.md file
+          header="# 🏆 Hall of Fame 🏆\n\nThis leaderboard recognizes the amazing contributors to the Cybersecurity event. Every merged pull request from any level earns a spot here. Thank you for your hard work and valuable contributions!\n\nThis board is updated automatically by a GitHub Action.\n\n| Contributor | Merged Contributions |\n| :--- | :--- |"
+
+          # Initialize an associative array to store contributor counts
+          declare -A counts
+
+          # Fetch all merged pull requests and loop through them
+          # We check the PR title for "Level 1", "Level 2", etc.
+          gh pr list --state merged --limit 1000 --json author,title | \
+          jq -c '.[] | select(.title | test("Level [1-4]"))' | \
+          while read -r pr; do
+            author=$(echo "$pr" | jq -r '.author.login')
+            # Increment the count for this author
+            ((counts[$author]++))
+          done
+
+          # Start with a clean Hall of Fame file with the correct header
+          echo -e "$header" > HALL_OF_FAME.md
+
+          # Append each contributor's data to the file
+          for author in "${!counts[@]}"; do
+            echo "| @${author} | ${counts[$author]} |" >> HALL_OF_FAME.md
+          done
+
+          echo "✅ Hall of Fame has been rebuilt successfully."
+          cat HALL_OF_FAME.md
+
+      # Step 3: Commit the newly updated Hall of Fame file.
+      - name: Commit Updated Hall of Fame
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add HALL_OF_FAME.md
+          # Check if there are any changes to commit
+          if ! git diff --staged --quiet; then
+            git commit -m "Automated: Rebuilt Hall of Fame from PR history"
+            git push
+          else
+            echo "No changes were needed for the Hall of Fame."
+          fi
