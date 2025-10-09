@@ -1,0 +1,26 @@
+# Nmap 7.94 scan initiated Thu Oct  9 13:42:23 2025 as: nmap -T4 -F -oN fastscan.txt 192.168.50.6
+Nmap scan report for 192.168.50.6
+Host is up (0.013s latency).
+Not shown: 82 closed tcp ports (reset)
+PORT     STATE SERVICE
+21/tcp   open  ftp
+22/tcp   open  ssh
+23/tcp   open  telnet
+25/tcp   open  smtp
+53/tcp   open  domain
+80/tcp   open  http
+111/tcp  open  rpcbind
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+513/tcp  open  login
+514/tcp  open  shell
+2049/tcp open  nfs
+2121/tcp open  ccproxy-ftp
+3306/tcp open  mysql
+5432/tcp open  postgresql
+5900/tcp open  vnc
+6000/tcp open  X11
+8009/tcp open  ajp13
+MAC Address: 08:00:27:0E:48:99 (Oracle VirtualBox virtual NIC)
+
+# Nmap done at Thu Oct  9 13:42:37 2025 -- 1 IP address (1 host up) scanned in 13.37 seconds
