@@ -9,5 +9,5 @@ This board is updated automatically by a GitHub Action.
 | @Alfresci | 2 |
 | @GAMMA32100 | 1 |
 | @Tek-Night | 1 |
-| @ramcharan46 | 1 |
+| @ramcharan46 | 2 |
 | @vihaancoderva | 1 |
