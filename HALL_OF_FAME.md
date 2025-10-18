@@ -6,8 +6,9 @@ This board is updated automatically by a GitHub Action.
 
 | Contributor | Merged Contributions |
 | :--- | :--- |
-| @Alfresci | 2 |
 | @GAMMA32100 | 1 |
+| @GVK-007 | 1 |
 | @Tek-Night | 1 |
 | @ramcharan46 | 2 |
+| @thesungod07 | 2 |
 | @vihaancoderva | 1 |
