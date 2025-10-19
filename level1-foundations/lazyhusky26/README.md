@@ -5,7 +5,7 @@
 ## 1. Network Topology
 A simple network consisting of two PCs, one switch, and one router was created.
 
-![Network Topology](bspic.png)
+![Network Topology](pic.png)
 
 ---
 
@@ -23,6 +23,6 @@ The network is configured using the `192.168.1.0/24` range.
 ## 3. Ping Verification
 The following output shows a successful ping from **PC-0** to **PC-1**, confirming network connectivity.
 
-![Ping](bsping.png)
+![Ping](ping.png)
 
 
