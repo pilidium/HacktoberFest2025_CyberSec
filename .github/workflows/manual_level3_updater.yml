@@ -23,19 +23,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq gh
 
-      # Step 3: Authenticate the GitHub CLI
       - name: Authenticate GitHub CLI
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "${GH_TOKEN}" | gh auth login --with-token
-          gh auth status
+        run: gh auth status || echo "GitHub CLI already authenticated."
 
       # Step 4: Scan PRs and Rebuild Findings
       - name: Scan PRs and Rebuild Findings
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
 
@@ -44,7 +39,6 @@ jobs:
           FINDINGS_FILE="level3-Attack_Life_Cycle/AGGREGATED_FINDINGS.md"
           HEADER="# Level 3: Aggregated Attack Lifecycle Database\n\nThis document summarizes all the attack lifecycle analyses submitted by participants. Each entry represents a unique, documented vulnerability and provides a link to the full, in-depth report. This table is updated automatically by a GitHub Action when a valid Level 3 PR is merged.\n\n| Contributor | Project Name | Vulnerability Type | Technology Stack | Full Report Link |\n| :--- | :--- | :--- | :--- | :--- |"
           
-          # Create/overwrite file with header
           echo -e "$HEADER" > "$FINDINGS_FILE"
 
           echo "📦 Fetching all merged PRs with the 'level-3' label..."
@@ -64,17 +58,15 @@ jobs:
             author_login=$(echo "$pr" | jq -r '.author.login')
             pr_body=$(echo "$pr" | jq -r '.body')
 
-            # Extract metadata anywhere in the body
+            # Extract metadata from anywhere in the PR body
             project_name=$(echo "$pr_body" | grep -i 'PROJECT_NAME:' | head -n 1 | sed 's/.*PROJECT_NAME:[[:space:]]*//' | xargs)
             vuln_type=$(echo "$pr_body" | grep -i 'VULNERABILITY_TYPE:' | head -n 1 | sed 's/.*VULNERABILITY_TYPE:[[:space:]]*//' | xargs)
             tech_stack=$(echo "$pr_body" | grep -i 'TECHNOLOGY_STACK:' | head -n 1 | sed 's/.*TECHNOLOGY_STACK:[[:space:]]*//' | xargs)
 
-            # Fallbacks in case metadata not found
             [ -z "$project_name" ] && project_name="(Not Specified)"
             [ -z "$vuln_type" ] && vuln_type="(Not Specified)"
             [ -z "$tech_stack" ] && tech_stack="(Not Specified)"
 
-            # Construct row
             contributor="@${author_login}"
             report_path="submissions/${author_login}/lifecycle_report.md"
             if [ -f "$report_path" ]; then
@@ -89,9 +81,10 @@ jobs:
           done
 
           echo "✅ Aggregated Findings file successfully rebuilt."
-          echo "--- New File Preview ---"
-          cat "$FINDINGS_FILE" | head -n 20
-          echo "------------------------"
+          echo "--- File Preview ---"
+          head -n 20 "$FINDINGS_FILE"
+          echo "--------------------"
+
 
       # Step 5: Commit and push updates if any
       - name: Commit Updated Findings File
