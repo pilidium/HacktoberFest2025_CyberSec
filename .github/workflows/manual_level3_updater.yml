@@ -1,0 +1,81 @@
+# This workflow manually rebuilds the Level 3 Aggregated Findings database.
+# It's useful for correcting errors or populating historical data.
+name: 'Manual Level 3 Findings Updater'
+
+# Allow manual triggering from the GitHub Actions UI
+on:
+  workflow_dispatch:
+
+jobs:
+  rebuild-level3-db:
+    runs-on: ubuntu-latest
+    permissions:
+      # Grant permissions to read pull requests and write contents
+      pull-requests: read
+      contents: write
+    steps:
+      # Step 1: Check out the repository to access its files
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 2: Scan all merged Level 3 PRs and regenerate the findings file
+      - name: Scan PRs and Rebuild Findings
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          
+          echo "Scanning all merged Level 3 pull requests..."
+
+          # Define the target file and its header
+          FINDINGS_FILE="level3-Attack_Life_Cycle/AGGREGATED_FINDINGS.md"
+          HEADER="# Level 3: Aggregated Attack Lifecycle Database\n\nThis document summarizes all the attack lifecycle analyses submitted by participants. Each entry represents a unique, documented vulnerability and provides a link to the full, in-depth report. This table is updated automatically by a GitHub Action when a valid Level 3 PR is merged.\n\n| Contributor | Project Name | Vulnerability Type | Technology Stack | Full Report Link |\n| :--- | :--- | :--- | :--- | :--- |"
+          
+          # Start with a clean file with the correct header
+          echo -e "$HEADER" > "$FINDINGS_FILE"
+          
+          echo "Fetching all merged PRs with the 'level-3' label..."
+          # Fetch all merged PRs with the 'level-3' label and extract author, body, and username for processing
+          gh pr list --state merged --limit 1000 --label "level-3" --json author,body \
+            | jq -c '.[]' \
+            | while read -r pr; do
+                author_login=$(echo "$pr" | jq -r '.author.login')
+                pr_body=$(echo "$pr" | jq -r '.body')
+                
+                # Extract metadata from the PR body
+                project_name=$(echo "$pr_body" | grep 'PROJECT_NAME:' | head -n 1 | cut -d ':' -f2- | xargs)
+                vuln_type=$(echo "$pr_body" | grep 'VULNERABILITY_TYPE:' | head -n 1 | cut -d ':' -f2- | xargs)
+                tech_stack=$(echo "$pr_body" | grep 'TECHNOLOGY_STACK:' | head -n 1 | cut -d ':' -f2- | xargs)
+                
+                # Construct the new markdown table row
+                contributor="@${author_login}"
+                report_link="[View Report](./submissions/${author_login}/lifecycle_report.md)"
+                new_row="| ${contributor} | ${project_name} | ${vuln_type} | ${tech_stack} | ${report_link} |"
+                
+                # Append the new row to the findings file
+                echo "$new_row" >> "$FINDINGS_FILE"
+            done
+
+          echo "✅ Aggregated Findings file has been rebuilt."
+          echo "--- New File Content ---"
+          cat "$FINDINGS_FILE"
+          echo "-------------------------"
+
+      # Step 3: Commit the newly updated AGGREGATED_FINDINGS.md file
+      - name: Commit Updated Findings File
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add level3-Attack_Life_Cycle/AGGREGATED_FINDINGS.md
+          
+          # Only commit if there are actual changes to the file
+          if git diff --staged --quiet; then
+            echo "No changes were needed for the Aggregated Findings file."
+          else
+            git commit -m "Automated: Manually rebuilt Level 3 Aggregated Findings"
+            git push
+            echo "Successfully committed the updated findings file."
+          fi
