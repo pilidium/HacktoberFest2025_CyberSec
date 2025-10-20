@@ -1,0 +1,18 @@
+# Nmap 7.95 scan initiated Mon Oct 20 03:57:27 2025 as: /usr/lib/nmap/nmap --privileged -sV -sC -oN service_scan.txt 192.168.2.129
+Nmap scan report for 192.168.2.129
+Host is up (0.00034s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.5
+22/tcp open  ssh     OpenSSH 9.9p1 Ubuntu 3ubuntu3.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 7e:ae:1d:23:bc:73:bd:db:4c:b7:02:0e:12:cf:d5:18 (ECDSA)
+|_  256 53:f5:31:9f:2a:f9:ac:e5:13:47:89:0d:f9:84:0f:54 (ED25519)
+80/tcp open  http    Apache httpd 2.4.63 ((Ubuntu))
+|_http-server-header: Apache/2.4.63 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+MAC Address: 00:0C:29:04:C8:89 (VMware)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Oct 20 03:57:50 2025 -- 1 IP address (1 host up) scanned in 22.88 seconds
