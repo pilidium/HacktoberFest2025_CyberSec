@@ -6,41 +6,61 @@ on:
 
 jobs:
   update-db:
+    # Only run if the PR was merged and has the 'level-3' label
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'level-3')
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Check out the repository code so we can access files
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          # We need a token with write access to push changes back
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Step 2: Extract metadata embedded in the PR description
       - name: Extract Metadata from PR
         id: extract_metadata
         run: |
+          # The PR body is passed as an environment variable
           pr_body="${{ github.event.pull_request.body }}"
-          metadata=$(echo "$pr_body" | awk '/METADATA_START/,/METADATA_END/' | sed '/METADATA_START/d;/METADATA_END/d')
+          # Use awk to find the block between METADATA_START and METADATA_END, then remove those lines
+          metadata=$(echo "$pr_body" | awk '//,//' | sed '//d;//d')
+          # Extract each field, remove the key, and trim whitespace
           echo "project_name=$(echo "$metadata" | grep 'PROJECT_NAME:' | cut -d ':' -f2- | xargs)" >> $GITHUB_OUTPUT
           echo "vuln_type=$(echo "$metadata" | grep 'VULNERABILITY_TYPE:' | cut -d ':' -f2- | xargs)" >> $GITHUB_OUTPUT
           echo "tech_stack=$(echo "$metadata" | grep 'TECHNOLOGY_STACK:' | cut -d ':' -f2- | xargs)" >> $GITHUB_OUTPUT
 
+      # Step 3: Append the extracted data as a new row to the markdown table
       - name: Append to Aggregated Findings
         run: |
+          # Get contributor username from the PR event context
           contributor="@${{ github.event.pull_request.user.login }}"
+          # Get extracted metadata from the previous step's output
           project_name="${{ steps.extract_metadata.outputs.project_name }}"
           vuln_type="${{ steps.extract_metadata.outputs.vuln_type }}"
           tech_stack="${{ steps.extract_metadata.outputs.tech_stack }}"
+          # Construct the relative link to the report within the repo structure
           report_link="[View Report](./submissions/${{ github.event.pull_request.user.login }}/lifecycle_report.md)"
+          # Format the new row for the markdown table
           new_row="| ${contributor} | ${project_name} | ${vuln_type} | ${tech_stack} | ${report_link} |"
-          echo "$new_row" >> level3/AGGREGATED_FINDINGS.md
+          # Append the new row to the correct file path (CORRECTED PATH HERE)
+          echo "$new_row" >> level3-Attack_Life_Cycle/AGGREGATED_FINDINGS.md
 
+      # Step 4: Commit the updated AGGREGATED_FINDINGS.md file back to the repo
       - name: Commit Updated Database File
         run: |
+          # Configure git user for the commit
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add level3/AGGREGATED_FINDINGS.md
+          # Stage the changed file (CORRECTED PATH HERE)
+          git add level3-Attack_Life_Cycle/AGGREGATED_FINDINGS.md
+          # Check if there are changes to commit to avoid empty commits
           if ! git diff --staged --quiet; then
+            # Commit the changes with a descriptive message
             git commit -m "Automated: Update Level 3 DB for ${{ github.event.pull_request.user.login }}"
+            # Push the changes back to the repository
             git push
           else
+            # Log if no changes were detected
             echo "No changes to commit."
           fi
