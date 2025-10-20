@@ -11,45 +11,51 @@ jobs:
       contents: write
 
     steps:
-      # Step 1: Check out the repo
+      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 2: Install dependencies (jq, gh)
+      # Step 2: Install dependencies
       - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y jq gh
 
+      # Step 3: Authenticate GitHub CLI properly
       - name: Authenticate GitHub CLI
-        run: gh auth status || echo "GitHub CLI already authenticated."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "${GH_TOKEN}" | gh auth login --with-token
+          gh auth status
 
-      # Step 4: Scan PRs and Rebuild Findings
+      # Step 4: Scan PRs and rebuild findings
       - name: Scan PRs and Rebuild Findings
         shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -e
-
+          set -ex  # enable debug output
           echo "🔍 Scanning all merged Level 3 pull requests..."
-
           FINDINGS_FILE="level3-Attack_Life_Cycle/AGGREGATED_FINDINGS.md"
+
+          mkdir -p "$(dirname "$FINDINGS_FILE")"
+
           HEADER="# Level 3: Aggregated Attack Lifecycle Database\n\nThis document summarizes all the attack lifecycle analyses submitted by participants. Each entry represents a unique, documented vulnerability and provides a link to the full, in-depth report. This table is updated automatically by a GitHub Action when a valid Level 3 PR is merged.\n\n| Contributor | Project Name | Vulnerability Type | Technology Stack | Full Report Link |\n| :--- | :--- | :--- | :--- | :--- |"
-          
           echo -e "$HEADER" > "$FINDINGS_FILE"
 
           echo "📦 Fetching all merged PRs with the 'level-3' label..."
-          gh pr list --state merged --limit 1000 --label "level-3" --json author,body > prs.json || {
-            echo "⚠️ No PRs found or GitHub CLI failed."
+          if ! gh pr list --state merged --limit 1000 --label "level-3" --json number,author,body > prs.json; then
+            echo "⚠️ Failed to fetch PRs via GitHub CLI."
             exit 0
-          }
+          fi
 
           pr_count=$(jq length prs.json)
+          echo "Total PRs fetched: $pr_count"
           if [ "$pr_count" -eq 0 ]; then
-            echo "⚠️ No merged PRs with label 'level-3' found."
+            echo "⚠️ No merged PRs found with label 'level-3'."
             exit 0
           fi
 
@@ -58,10 +64,10 @@ jobs:
             author_login=$(echo "$pr" | jq -r '.author.login')
             pr_body=$(echo "$pr" | jq -r '.body')
 
-            # Extract metadata from anywhere in the PR body
-            project_name=$(echo "$pr_body" | grep -i 'PROJECT_NAME:' | head -n 1 | sed 's/.*PROJECT_NAME:[[:space:]]*//' | xargs)
-            vuln_type=$(echo "$pr_body" | grep -i 'VULNERABILITY_TYPE:' | head -n 1 | sed 's/.*VULNERABILITY_TYPE:[[:space:]]*//' | xargs)
-            tech_stack=$(echo "$pr_body" | grep -i 'TECHNOLOGY_STACK:' | head -n 1 | sed 's/.*TECHNOLOGY_STACK:[[:space:]]*//' | xargs)
+            # Extract metadata (case-insensitive, robust)
+            project_name=$(echo "$pr_body" | grep -i 'PROJECT_NAME:' | head -n 1 | sed 's/.*PROJECT_NAME:[[:space:]]*//' | xargs || true)
+            vuln_type=$(echo "$pr_body" | grep -i 'VULNERABILITY_TYPE:' | head -n 1 | sed 's/.*VULNERABILITY_TYPE:[[:space:]]*//' | xargs || true)
+            tech_stack=$(echo "$pr_body" | grep -i 'TECHNOLOGY_STACK:' | head -n 1 | sed 's/.*TECHNOLOGY_STACK:[[:space:]]*//' | xargs || true)
 
             [ -z "$project_name" ] && project_name="(Not Specified)"
             [ -z "$vuln_type" ] && vuln_type="(Not Specified)"
@@ -85,8 +91,7 @@ jobs:
           head -n 20 "$FINDINGS_FILE"
           echo "--------------------"
 
-
-      # Step 5: Commit and push updates if any
+      # Step 5: Commit and push updates
       - name: Commit Updated Findings File
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -101,7 +106,7 @@ jobs:
             echo "🚀 Successfully committed updated findings file."
           fi
 
-      # Step 6: Add a workflow summary
+      # Step 6: Add workflow summary
       - name: Add Workflow Summary
         if: always()
         run: |
