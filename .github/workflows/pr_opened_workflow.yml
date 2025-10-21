@@ -1,48 +1,84 @@
-name: 'PR Analysis & Welcome Bot'
+name: 'PR Opened Workflow'
 
-# This action runs whenever a Pull Request is opened
 on:
   pull_request:
-    types: [opened]
+    types: [opened, edited]
 
 jobs:
-  analyze-and-comment:
-    # We only want to run this job if the PR has the 'level-3' label
-    if: contains(github.event.pull_request.labels.*.name, 'level-3')
+  label-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Label PR based on branch name
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+
+  validate-template:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Post a welcome comment
-      - name: Post Welcome Comment
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `🤖 Greetings, @${context.actor}! Thanks for your Level 3 submission. Your report is now in the queue for review.\n\nIn the meantime, an automated security scan will run to check your code. Please double-check that you've completed the safety checklist and redacted all sensitive information. Good luck!`
-            })
-
-      # Step 2: Check out the code to be scanned
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      # Step 3: Extract the language from the PR metadata
-      - name: Extract Language from PR
-        id: extract_lang
+      - name: Check for Level 1 Template Marker
+        if: contains(join(github.event.pull_request.labels.*.name, ','), 'level-1')
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          pr_body="${{ github.event.pull_request.body }}"
-          metadata=$(echo "$pr_body" | awk '/METADATA_START/,/METADATA_END/')
-          language=$(echo "$metadata" | grep 'PRIMARY_LANGUAGE:' | cut -d ':' -f2- | xargs | tr '[:upper:]' '[:lower:]')
-          echo "language=${language}" >> $GITHUB_OUTPUT
+          echo "Validating Level 1 PR Template..."
+          if ! echo "$PR_BODY" | grep -q "## Level 1 PR Template"; then
+            echo "Error: PR body is missing '## Level 1 PR Template' marker."
+            echo "Please use the Level 1 PR template."
+            exit 1
+          fi
+          echo "Level 1 Template validation passed."
 
-      # Step 4: Initialize the CodeQL security scanner
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: ${{ steps.extract_lang.outputs.language }}
+      - name: Check for Level 2 Template Marker
+        if: contains(join(github.event.pull_request.labels.*.name, ','), 'level-2')
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "Validating Level 2 PR Template..."
+          if ! echo "$PR_BODY" | grep -q "## Level 2 PR Template"; then
+            echo "Error: PR body is missing '## Level 2 PR Template' marker."
+            echo "Please use the Level 2 PR template."
+            exit 1
+          fi
+          echo "Level 2 Template validation passed."
 
-      # Step 5: Build and analyze the code
-      - name: Autobuild & Analyze
-        uses: github/codeql-action/autobuild@v2
-      - uses: github/codeql-action/analyze@v2
+      - name: Check for Level 3 Template Markers and Fields
+        if: contains(join(github.event.pull_request.labels.*.name, ','), 'level-3')
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "Validating Level 3 PR Template..."
+          if ! echo "$PR_BODY" | grep -q "## Level 3 PR Template"; then
+            echo "Error: PR body is missing '## Level 3 PR Template' marker."
+            echo "Please use the Level 3 PR template and fill out the metadata section."
+            exit 1
+          fi
+          project_name=$(echo "$PR_BODY" | grep 'PROJECT_NAME:' | cut -d ':' -f2- | xargs)
+          if [ -z "$project_name" ]; then
+            echo "Error: 'PROJECT_NAME:' is empty in the template."
+            echo "Please fill out all required fields in the metadata block."
+            exit 1
+          fi
+          echo "Level 3 Template validation passed."
+
+      - name: Check for Level 4 Template Markers and Fields
+        if: contains(join(github.event.pull_request.labels.*.name, ','), 'level-4')
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "Validating Level 4 PR Template..."
+          if ! echo "$PR_BODY" | grep -q "## Level 4 PR Template"; then
+            echo "Error: PR body is missing '## Level 4 PR Template' marker."
+            echo "Please use the Level 4 PR template."
+            exit 1
+          fi
+          team_name=$(echo "$PR_BODY" | grep 'TEAM_NAME:' | cut -d ':' -f2- | xargs)
+          if [ -z "$team_name" ]; then
+            echo "Error: 'TEAM_NAME:' is empty in the template."
+            echo "Please fill out all required fields."
+            exit 1
+          fi
+          echo "Level 4 Template validation passed."
