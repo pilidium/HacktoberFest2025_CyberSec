@@ -1,20 +1,49 @@
-# Level 1: Network Foundations
+# Level 1: Network Foundations Submission 
 
-# Objective:
+## Contributor: [Janvi75](https://github.com/Janvi75)
 
-Build a functional SOHO network in Cisco Packet Tracer.
+## Objective
 
-Topology: 2 PCs, 1 Switch, 1 Router.
+Design and implement a functional SOHO (Small Office/Home Office) network in Cisco Packet Tracer using:
 
-Network: Use the 192.168.1.0/24 range for static IP addressing.
+- **2 PCs**
+- **1 Switch**
+- **1 Router**
 
-Verification: Ensure both PCs can ping each other.
-____________________
+The goal is to ensure full end-to-end connectivity between the devices using static IP addressing.
 
-# Deliverables
-Place the following two files in a new folder named after your GitHub handle (level1-foundations/<your-handle>/):
+This file demonstrates the completed Level 1 task as per the submission requirements.
 
-level1.pkt: The completed Packet Tracer project file.
+---
 
-README.md: A document containing your final IP addressing scheme and proof of ping connectivity.
-____________________
+## 1. Network Topology
+
+A simple SOHO network was created using:
+
+- **Router Model:** 1941 Router0
+- **Switch Model:** 2960-24TT Switch0
+- **PCs:** PC0, PC1
+
+
+![Network Topology](topology.png)
+
+---
+
+## 2. IP Addressing Scheme
+
+The network is configured using the `192.168.1.0/24` range with static IP addressing.
+
+| Device | Interface           | IP Address     | Subnet Mask     | Default Gateway |
+|--------|---------------------|----------------|-----------------|-----------------|
+| Router | GigabitEthernet0/0  | 192.168.1.1    | 255.255.255.0   | N/A             |
+| PC0    | FastEthernet0       | 192.168.1.11   | 255.255.255.0   | 0.0.0.0         |
+| PC1    | FastEthernet0       | 192.168.1.12   | 255.255.255.0   | 0.0.0.0         |
+
+---
+
+## 3. Ping Verification
+
+The following output shows a successful ping from **PC0** to **PC1**, confirming end-to-end connectivity.
+![Ping Verification](ping.png)
+
+
