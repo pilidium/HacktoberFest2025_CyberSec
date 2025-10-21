@@ -25,8 +25,8 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           echo "Validating Level 1 PR Template..."
-          if ! echo "$PR_BODY" | grep -q "## Level 1 PR Template"; then
-            echo "Error: PR body is missing '## Level 1 PR Template' marker."
+          if ! echo "$PR_BODY" | grep -q "# 🧩 Level 1 Submission"; then
+            echo "Error: PR body is missing the '# 🧩 Level 1 Submission' marker."
             echo "Please use the Level 1 PR template."
             exit 1
           fi
@@ -38,8 +38,8 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           echo "Validating Level 2 PR Template..."
-          if ! echo "$PR_BODY" | grep -q "## Level 2 PR Template"; then
-            echo "Error: PR body is missing '## Level 2 PR Template' marker."
+          if ! echo "$PR_BODY" | grep -q "# 🧪 Level 2 Submission"; then
+            echo "Error: PR body is missing the '# 🧪 Level 2 Submission' marker."
             echo "Please use the Level 2 PR template."
             exit 1
           fi
@@ -51,8 +51,8 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           echo "Validating Level 3 PR Template..."
-          if ! echo "$PR_BODY" | grep -q "## Level 3 PR Template"; then
-            echo "Error: PR body is missing '## Level 3 PR Template' marker."
+          if ! echo "$PR_BODY" | grep -q "# ✅ Level 3 Submission"; then
+            echo "Error: PR body is missing the '# ✅ Level 3 Submission' marker."
             echo "Please use the Level 3 PR template and fill out the metadata section."
             exit 1
           fi
@@ -70,15 +70,9 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           echo "Validating Level 4 PR Template..."
-          if ! echo "$PR_BODY" | grep -q "## Level 4 PR Template"; then
-            echo "Error: PR body is missing '## Level 4 PR Template' marker."
+          if ! echo "$PR_BODY" | grep -q "# 🎲 Level 4 Move Submission"; then
+            echo "Error: PR body is missing the '# 🎲 Level 4 Move Submission' marker."
             echo "Please use the Level 4 PR template."
-            exit 1
-          fi
-          team_name=$(echo "$PR_BODY" | grep 'TEAM_NAME:' | cut -d ':' -f2- | xargs)
-          if [ -z "$team_name" ]; then
-            echo "Error: 'TEAM_NAME:' is empty in the template."
-            echo "Please fill out all required fields."
             exit 1
           fi
           echo "Level 4 Template validation passed."
