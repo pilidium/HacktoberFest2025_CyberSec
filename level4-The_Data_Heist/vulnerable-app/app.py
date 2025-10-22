@@ -49,22 +49,20 @@ def file_viewer():
     error = None
 
     if filename:
-        # --- VULNERABILITY ---
-        # This is a classic Path Traversal vulnerability.
-        # It directly uses user input to build a file path without sanitizing it.
-        # An attacker can use '..' to navigate the filesystem.
-        # For example, filename = ../secret_data.txt
-        file_path = os.path.join(os.getcwd(), 'files', filename)
-
-        try:
-            # Check if the path is a file and exists
-            if os.path.isfile(file_path):
-                with open(file_path, 'r') as f:
-                    content = f.read()
+        
+            file_path = os.path.join(os.getcwd(), 'files', filename)
+            if (".." in filename):
+              error = "Invalid filename."
             else:
-                error = f"File not found: {filename}"
-        except Exception as e:
-            error = "An error occurred while trying to read the file."
+              try:
+                  # Check if the path is a file and exists
+                  if os.path.isfile(file_path):
+                      with open(file_path, 'r') as f:
+                          content = f.read()
+                  else:
+                      error = f"File not found: {filename}"
+              except Exception as e:
+                  error = "An error occurred while trying to read the file."
             
     return render_template_string(TEMPLATE, filename=filename, content=content, error=error)
 
