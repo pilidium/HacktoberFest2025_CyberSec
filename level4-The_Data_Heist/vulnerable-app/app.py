@@ -56,7 +56,7 @@ def file_viewer():
             else:
               try:
                   # Check if the path is a file and exists
-                  if os.path.isfile(file_path):
+                  if os.path.isfile(file_path) and not os.path.islink(file_path):
                       with open(file_path, 'r') as f:
                           content = f.read()
                   else:
