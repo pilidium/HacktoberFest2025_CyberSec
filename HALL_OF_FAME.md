@@ -6,11 +6,15 @@ This board is updated automatically by a GitHub Action.
 
 | Contributor | Merged Contributions |
 | :--- | :--- |
+| @CMB-i | 1 |
+| @CharithReddy007 | 1 |
 | @GAMMA32100 | 1 |
-| @GVK-007 | 1 |
+| @GVK-007 | 2 |
 | @GeetPacMan | 1 |
+| @GeneralAumsum07 | 1 |
+| @Janvi75 | 2 |
 | @Tek-Night | 1 |
-| @ramcharan46 | 2 |
-| @thesungod07 | 2 |
+| @ramcharan46 | 4 |
+| @thesungod07 | 3 |
 | @vihaancoderva | 1 |
 | @violeas | 1 |
