@@ -51,7 +51,7 @@ def file_viewer():
     if filename:
         
             file_path = os.path.join(os.getcwd(), 'files', filename)
-            if (".." in filename):
+            if (".." in filename) or os.path.isabs(filename):
               error = "Invalid filename."
             else:
               try:
