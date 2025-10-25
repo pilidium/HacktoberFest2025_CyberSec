@@ -1,0 +1,26 @@
+# GitHub Actions Labeler Configuration
+# Automatically applies labels to pull requests based on changed files
+
+# Level 1: Network Foundations
+level-1:
+  - changed-files:
+    - any-glob-to-any-file: 'level1-foundations/**/*'
+    - any-glob-to-any-file: 'level1/**/*'
+
+# Level 2: VM Lab & Nmap Scan
+level-2:
+  - changed-files:
+    - any-glob-to-any-file: 'level2-vm-nmap/**/*'
+    - any-glob-to-any-file: 'level2/**/*'
+
+# Level 3: Attack & Defense Lifecycle
+level-3:
+  - changed-files:
+    - any-glob-to-any-file: 'level3-Attack_Life_Cycle/**/*'
+    - any-glob-to-any-file: 'level3/**/*'
+
+# Level 4: Red vs Blue Simulation
+level-4:
+  - changed-files:
+    - any-glob-to-any-file: 'level4/**/*'
+    - any-glob-to-any-file: 'level4-*/**/*'
