@@ -42,6 +42,14 @@ TEMPLATE = """
 </html>
 """
 
+def encrypt(text, key):
+    return ''.join(chr(ord(c) ^ ord(key[i % len(key)])) for i, c in enumerate(text))
+
+def decrypt(text, key):
+    return ''.join(chr(ord(c) ^ ord(key[i % len(key)])) for i, c in enumerate(text))
+
+KEY = "???figure it out bish :D"
+
 @app.route('/', methods=['GET'])
 def file_viewer():
     filename = request.args.get('filename')
@@ -58,7 +66,8 @@ def file_viewer():
                   # Check if the path is a file and exists
                   if os.path.isfile(file_path) and not os.path.islink(file_path):
                       with open(file_path, 'r') as f:
-                          content = f.read()
+                          c = f.read()
+                          content = decrypt(c, KEY)
                   else:
                       error = f"File not found: {filename}"
               except Exception as e:
@@ -71,7 +80,8 @@ if __name__ == '__main__':
     if not os.path.exists('files'):
         os.makedirs('files')
     with open('files/welcome.txt', 'w') as f:
-        f.write('Welcome to the Innovatech file viewer!')
+        en=encrypt('Welcome to the Innovatech file viewer!', KEY)
+        f.write(en)
     
     # This will run the web server on http://127.0.0.1:8080
     app.run(debug=True, port=8080)
